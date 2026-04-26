@@ -1,0 +1,2 @@
+curl http://localhost:3000/books
+{"1":{"title":"Things Fall Apart","author":"Chinua Achebe","reviews":{}},"2":{"title":"Harry Potter","author":"J.K. Rowling","reviews":{}}}

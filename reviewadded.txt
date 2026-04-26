@@ -1,0 +1,2 @@
+curl -X PUT http://localhost:3000/books/review/1 -H "Authorization: Bearer sample_token_12345" -H "Content-Type: application/json" -d '{"review":"Great book!"}'
+{"message":"Review added/updated","reviews":{"user1":"Great book!"}}

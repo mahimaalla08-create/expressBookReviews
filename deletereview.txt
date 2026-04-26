@@ -1,0 +1,2 @@
+curl -X DELETE http://localhost:3000/books/review/1 -H "Authorization: Bearer sample_token_12345"
+{"message":"Review deleted"}
