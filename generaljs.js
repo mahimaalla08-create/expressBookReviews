@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-// Get all books
+// Fetch all books from API
 async function getAllBooks() {
   try {
     const res = await axios.get('http://localhost:3000/books');
@@ -10,7 +10,7 @@ async function getAllBooks() {
   }
 }
 
-// Get book by ISBN
+// Fetch a book by ISBN
 async function getBookByISBN(isbn) {
   try {
     const res = await axios.get(`http://localhost:3000/books/isbn/${isbn}`);
@@ -26,7 +26,7 @@ async function getBookByISBN(isbn) {
   }
 }
 
-// Get books by Author
+// Fetch books by author name
 async function getBooksByAuthor(author) {
   try {
     const res = await axios.get(`http://localhost:3000/books/author/${author}`);
@@ -42,7 +42,7 @@ async function getBooksByAuthor(author) {
   }
 }
 
-// Get books by Title
+// Fetch books by title
 async function getBooksByTitle(title) {
   try {
     const res = await axios.get(`http://localhost:3000/books/title/${title}`);
