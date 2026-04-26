@@ -7,29 +7,33 @@ app.use(bodyParser.json());
 
 const SECRET = "secret123";
 
+// ✅ 10 BOOKS (IMPORTANT FIX)
 let books = {
-  "1": {
-    title: "Things Fall Apart",
-    author: "Chinua Achebe",
-    reviews: {}
-  },
-  "2": {
-    title: "Harry Potter",
-    author: "J.K. Rowling",
-    reviews: {}
-  }
+  "1":{"title":"Things Fall Apart","author":"Chinua Achebe","reviews":{}},
+  "2":{"title":"Fairy Tales","author":"Hans Christian Andersen","reviews":{}},
+  "3":{"title":"The Divine Comedy","author":"Dante Alighieri","reviews":{}},
+  "4":{"title":"The Epic Of Gilgamesh","author":"Unknown","reviews":{}},
+  "5":{"title":"The Book Of Job","author":"Unknown","reviews":{}},
+  "6":{"title":"One Thousand and One Nights","author":"Unknown","reviews":{}},
+  "7":{"title":"Njál's Saga","author":"Unknown","reviews":{}},
+  "8":{"title":"Pride and Prejudice","author":"Jane Austen","reviews":{}},
+  "9":{"title":"Le Père Goriot","author":"Honoré de Balzac","reviews":{}},
+  "10":{"title":"Molloy, Malone Dies, The Unnamable","author":"Samuel Beckett","reviews":{}}
 };
 
 let users = [];
 
+// ✅ Get all books
 app.get('/books', (req, res) => {
   res.json(books);
 });
 
+// ✅ Get book by ISBN
 app.get('/books/isbn/:isbn', (req, res) => {
   res.json(books[req.params.isbn]);
 });
 
+// ✅ Get books by author
 app.get('/books/author/:author', (req, res) => {
   const result = Object.values(books).filter(
     b => b.author.toLowerCase() === req.params.author.toLowerCase()
@@ -37,6 +41,7 @@ app.get('/books/author/:author', (req, res) => {
   res.json(result);
 });
 
+// ✅ Get books by title
 app.get('/books/title/:title', (req, res) => {
   const result = Object.values(books).filter(
     b => b.title.toLowerCase() === req.params.title.toLowerCase()
@@ -44,16 +49,19 @@ app.get('/books/title/:title', (req, res) => {
   res.json(result);
 });
 
-app.get('/books/review/:isbn', (req, res) => {
+// ✅ FIXED: Get review (correct endpoint)
+app.get('/review/:isbn', (req, res) => {
   res.json(books[req.params.isbn].reviews);
 });
 
+// ✅ Register user
 app.post('/register', (req, res) => {
   const { username, password } = req.body;
   users.push({ username, password });
   res.json({ message: "User registered successfully" });
 });
 
+// ✅ Login user
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   const user = users.find(u => u.username === username && u.password === password);
@@ -66,6 +74,7 @@ app.post('/login', (req, res) => {
   }
 });
 
+// ✅ Middleware for auth
 function auth(req, res, next) {
   const token = req.headers['authorization']?.split(" ")[1];
   if (!token) return res.sendStatus(403);
@@ -77,19 +86,23 @@ function auth(req, res, next) {
   });
 }
 
-app.put('/books/review/:isbn', auth, (req, res) => {
+// ✅ FIXED: Add / Modify review
+app.put('/review/:isbn', auth, (req, res) => {
   const isbn = req.params.isbn;
   const review = req.body.review;
 
   books[isbn].reviews[req.user.username] = review;
-  res.json({ message: "Review added/updated", reviews: books[isbn].reviews });
+  res.json({ message: "Review added successfully" });
 });
 
-app.delete('/books/review/:isbn', auth, (req, res) => {
+// ✅ FIXED: Delete review
+app.delete('/review/:isbn', auth, (req, res) => {
   const isbn = req.params.isbn;
 
   delete books[isbn].reviews[req.user.username];
-  res.json({ message: "Review deleted" });
+  res.json({ message: "Review deleted successfully" });
 });
 
+// ✅ Start server
 app.listen(3000, () => console.log("Server running on port 3000"));
+  
